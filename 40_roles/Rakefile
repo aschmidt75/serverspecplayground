@@ -1,0 +1,38 @@
+require 'rspec/core/rake_task'
+
+hosts = [
+	{
+		:name 		=> 'node',
+		:short_name	=> 'node',
+		:roles		=> [ 'base', 'lvm', 'needs_database' ]
+	}
+]
+
+# define Tasks
+
+desc "Run serverspec on all hosts"
+task :spec      =>      'serverspec:all'
+
+class ServerspecTask    < RSpec::Core::RakeTask
+        attr_accessor   :target
+
+        def spec_command
+                cmd = super
+                "env TARGET_HOST=#{target} #{cmd}"
+        end
+end
+
+namespace :serverspec do
+        # define task all
+        task :all => hosts.map { |h| 'serverspec:'+h[:short_name] }
+
+        # define a serversec task for each host
+        hosts.each do |host|
+                desc "Run serverspec on #{host[:name]}"
+                ServerspecTask.new( host[:short_name].to_sym) do |t|
+                        t.target        = host[:name]
+                        t.pattern       = 'spec/{'+host[:roles].join(",")+'}/*_spec.rb'
+                end
+        end
+end
+
