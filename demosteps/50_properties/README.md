@@ -8,10 +8,10 @@ We move to a separate location, in this case a .yaml file. In more complex envir
 
 The .yaml file is located in a subdirectory called ''properties''. To access them we need to adapt the spec_helper.rb file.
 
-'''
+```
 require 'yaml'
 properties      = YAML.load_file 'properties/all.yaml'
 # ...
 set_property	properties
-'''
+```
 
