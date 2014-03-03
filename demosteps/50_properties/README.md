@@ -18,7 +18,7 @@ set_property	properties
 Later we are able to access properties within the specification:
 ```
 describe network_fact('eth0') do
-  its(:cidr)      { should eq "#{property[:access_network]}" }
+        its(:cidr)      { should eq property[:access_network] }
 end
 ```
 
