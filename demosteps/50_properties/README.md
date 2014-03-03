@@ -22,3 +22,8 @@ describe network_fact('eth0') do
 end
 ```
 
+with an example property such as
+```
+:access_network: 10.0.2.0/24
+```
+
